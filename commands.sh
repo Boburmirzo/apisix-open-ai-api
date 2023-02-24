@@ -19,7 +19,7 @@ curl http://127.0.0.1:9080/openai/product/desc  -X POST -d
 }'
 
 # Step 1: Create an Upstream for the OpenAI API
-
+# Reference to documentation: https://apisix.apache.org/docs/apisix/terminology/upstream/
 curl "http://127.0.0.1:9180/apisix/admin/upstreams/1" -H "X-API-KEY: edd1c9f034335f136f87ad84b625c8f1" -X PUT -d '
 {
   "name": "OpenAI API upstream",
@@ -32,7 +32,9 @@ curl "http://127.0.0.1:9180/apisix/admin/upstreams/1" -H "X-API-KEY: edd1c9f0343
 }'
 
 # Step 2: Create a new plugin config
-
+# Reference to documentation: 
+# About Plugin Config: https://apisix.apache.org/docs/apisix/terminology/plugin-config/
+# Abour Proxy Rewrite plugin: https://apisix.apache.org/docs/apisix/plugins/proxy-rewrite/
 curl http://127.0.0.1:9180/apisix/admin/plugin_configs/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d ' 
 {
    "plugins":{
@@ -48,7 +50,7 @@ curl http://127.0.0.1:9180/apisix/admin/plugin_configs/1 -H 'X-API-KEY: edd1c9f0
 }'
 
 # Step 3: Set up a Route for the OpenAI completion endpoint
-
+# Reference to documentation: https://apisix.apache.org/docs/apisix/terminology/route/
 curl -i http://127.0.0.1:9180/apisix/admin/routes/1 \
 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
@@ -74,7 +76,7 @@ curl -i http://127.0.0.1:9080/openai/product/desc -X POST -d \
 }'
 
 # Step 5: Create a new consumer and add authentication
-
+# Reference to documentation: https://apisix.apache.org/docs/apisix/terminology/consumer/
 curl http://127.0.0.1:9180/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "username": "consumer1",
@@ -87,7 +89,7 @@ curl http://127.0.0.1:9180/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335f1
 }'
 
 # Step 6: Update the existing plugin config and append basic-auth
-
+# Reference to documentation: https://apisix.apache.org/docs/apisix/plugins/basic-auth/
 curl http://127.0.0.1:9180/apisix/admin/plugin_configs/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d ' 
 {
    "plugins":{
@@ -152,6 +154,7 @@ curl -i -u username1:password1 http://127.0.0.1:9080/openai/product/desc  -X POS
 }'
 
 ## Optional step: Enable proxy caching
+# Reference to documentation: https://apisix.apache.org/docs/apisix/plugins/proxy-cache/ 
 curl http://127.0.0.1:9180/apisix/admin/plugin_configs/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
    "plugins":{
